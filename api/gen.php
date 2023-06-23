@@ -4,12 +4,13 @@
  * @Email: i@antx.cc
  * @Date: 2023-5-26 10:12:07
  */
-require '../api/config.php';
-require '../static/php/link.php';
-require '../static/php/php/utils.php';
 
-error_reporting(E_ERROR | E_PARSE);
-header('Content-type:application/json; charset=utf-8');
+require '../api/config.php';
+require '../src/link.php';
+require '../src/utils.php';
+
+//error_reporting(0);
+//header('Content-type:application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 
 $long_link = $_GET['long_link'] ?? '';

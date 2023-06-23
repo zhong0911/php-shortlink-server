@@ -1,5 +1,3 @@
-error_page 404 /404.html;
-error_page 502 /502.html;
 rewrite '^/([a-zA-Z0-9.]+)$' /api/into.php?short_link=$1 last;
 location = / {
     add_header Content-Type 'text/html; charset=utf-8';

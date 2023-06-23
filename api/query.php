@@ -5,12 +5,12 @@
  * @Date: 2023-5-26 10:12:07
  */
 
-require '../api/config.php';
-require '../static/php/link.php';
-
 error_reporting(E_ERROR | E_PARSE);
 header('Content-type:application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
+
+require './config.php';
+require '../src/link.php';
 
 $short_link = $_GET['short_link'] ?? '';
 if ($short_link) {

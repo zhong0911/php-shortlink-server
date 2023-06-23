@@ -7,32 +7,32 @@
 
 function getShortLinkLongLink($short_link): string
 {
-    return queryAccountData("SELECT long_link FROM link WHERE short_link='$short_link'", "long_link");
+    return queryAccountData("SELECT long_link FROM shortlinks WHERE short_link='$short_link'", "long_link");
 }
 
 function getShortLinkExist($short_link): bool
 {
-    return queryAccountData("SELECT short_link FROM link WHERE short_link='$short_link'", "short_link") != "";
+    return queryAccountData("SELECT short_link FROM shortlinks WHERE short_link='$short_link'", "short_link") != "";
 }
 
 function getShortLinkExpirationTime($short_link): string
 {
-    return queryAccountData("SELECT expiration_time FROM link WHERE short_link='$short_link'", "expiration_time");
+    return queryAccountData("SELECT expiration_time FROM shortlinks WHERE short_link='$short_link'", "expiration_time");
 }
 
 function getShortLinkGenerationTime($short_link): string
 {
-    return queryAccountData("SELECT generation_time FROM link WHERE short_link='$short_link'", "generation_time");
+    return queryAccountData("SELECT generation_time FROM shortlinks WHERE short_link='$short_link'", "generation_time");
 }
 
 function getShortLinkStatus($short_link): string
 {
-    return queryAccountData("SELECT status FROM link WHERE short_link='$short_link'", "status");
+    return queryAccountData("SELECT status FROM shortlinks WHERE short_link='$short_link'", "status");
 }
 
 function getShortLinkRequestTimes($short_link): string
 {
-    return queryAccountData("SELECT request_times FROM link WHERE short_link='$short_link'", "request_times");
+    return queryAccountData("SELECT request_times FROM shortlinks WHERE short_link='$short_link'", "request_times");
 }
 
 function updateShortLinkRequestTimes($short_link): bool
@@ -43,13 +43,13 @@ function updateShortLinkRequestTimes($short_link): bool
 
 function getAllShortLinksRequestTimes(): string
 {
-    return queryAccountData("SELECT request_times FROM link WHERE id=1", "request_times");
+    return queryAccountData("SELECT request_times FROM shortlinks WHERE id=1", "request_times");
 }
 
 function updateAllShortLinksRequestTimes(): bool
 {
     $request_times = (int)getAllShortLinksRequestTimes() + 1;
-    return insertData("update link set request_times=$request_times where id=1");
+    return insertData("update shortlinks set request_times=$request_times where id=1");
 }
 
 function getNewShortLink(): string
@@ -62,7 +62,7 @@ function getNewShortLink(): string
 
 function addShortLink($short_link, $long_link, $generation_time, $expiration_time): bool
 {
-    return insertData("insert into link (id, short_link, long_link, status, generation_time, expiration_time, request_times) values (default, '$short_link', '$long_link', true, '$generation_time', '$expiration_time', 0)");
+    return insertData("insert into shortlinks (id, short_link, long_link, status, generation_time, expiration_time, request_times) values (default, '$short_link', '$long_link', true, '$generation_time', '$expiration_time', 0)");
 }
 
 
@@ -77,7 +77,7 @@ function genShortLong($length = 6): string
 
 function queryAccountData($sql, $key): string
 {
-    $conn = mysqli_connect("mysql.db.antx.cc", "root", "zhong0911MySQL", "antx");
+    $conn = mysqli_connect("mysql.db.antx.cc", "root", getenv("ANTX_MYSQL_PASSWORD"), "shortlinks");
     $result = mysqli_query($conn, $sql);
     $res = "";
     while ($row = mysqli_fetch_array($result)) {
@@ -90,7 +90,7 @@ function queryAccountData($sql, $key): string
 
 function insertData($sql): bool
 {
-    $conn = mysqli_connect("mysql.db.antx.cc", "root", "zhong0911MySQL", "antx");
+    $conn = mysqli_connect("mysql.db.antx.cc", "root", getenv("ANTX_MYSQL_PASSWORD"), "shortlinks");
     $res = false;
     if ($conn->query($sql) === TRUE) {
         $res = true;

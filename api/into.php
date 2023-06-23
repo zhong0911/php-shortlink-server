@@ -5,12 +5,12 @@
  * @Date: 2023-5-26 10:12:07
  */
 
-require '../static/php/link.php';
-require '../static/php/php/utils.php';
-
-error_reporting(E_ERROR | E_PARSE);
+//error_reporting(0);
 header('Content-type:application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
+
+require '../src/link.php';
+require '../src/utils.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $short_link = $_GET['short_link'] ?? '';
